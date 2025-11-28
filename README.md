@@ -25,7 +25,7 @@ Funcionamento:
 - Login de teste (client-side): mestre@culinaria.com / 123456
 
 Grupo:
-Daniel de Fabris Catozzi
-Luis Felipe Ribeiro e Silva
-Otavio Babler Cabral
-Raul Victor Rodrigues
+Daniel de Fabris Catozzi;
+Luis Felipe Ribeiro e Silva;
+Otavio Babler Cabral;
+Raul Victor Rodrigues.
