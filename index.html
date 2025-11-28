@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Portal Gourmet - Home</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link id="theme-style" rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="logo.png" type="image/png">
+<script src="js/theme.js" defer></script>
+<script src="js/carrega_dados.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container bar">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="Portal Gourmet" style="width: 50px; height: 50px; border-radius: 8px;">
+        Portal Gourmet
+    </a>
+    
+    <div class="search"><input id="search" placeholder="procurar receita"></div>
+    
+    <div class="top-actions">
+      <a href="tabela.html" class="btn">ver receitas</a>
+      <a href="login.html" class="btn">entrar</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="carousel" id="carousel"></div>
+  </section>
+
+  <div class="section-title">
+    <h3>receitas mais buscadas</h3>
+    <a href="tabela.html">ver todas</a>
+  </div>
+
+  <section class="grid" id="grid"></section>
+
+  <div class="section-title"><h3>sobre o projeto</h3></div>
+  <div class="form-card"><p>Projeto acadêmico: portal de receitas onde especialistas cadastram receitas. Permite futuramente operações CRUD.</p></div>
+
+</main>
+
+<footer class="footer center">Projeto para entrega acadêmica • Desenvolvido pela equipe</footer>
+</body>
+</html>

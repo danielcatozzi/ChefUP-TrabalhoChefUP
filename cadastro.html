@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cadastro - Portal Gourmet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link id="theme-style" rel="stylesheet" href="css/styles.css">
+<script src="js/theme.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container bar">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="Portal Gourmet" style="width: 50px; height: 50px; border-radius: 8px;">
+        Portal Gourmet
+    </a>
+    <div class="top-actions">
+        <a href="javascript:history.back()" class="btn">voltar</a>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="form-card">
+    <h2>Criar Conta de Especialista</h2>
+    <p>Preencha os dados para se tornar um especialista.</p>
+    
+    <form id="cadastroForm" autocomplete="off">
+      <label>Nome Completo</label>
+      <input class="input" name="nome" type="text" required placeholder="Ex: Chef João" autocomplete="off">
+      
+      <label>E-mail</label>
+      <input class="input" name="email" type="email" required placeholder="seu@email.com" autocomplete="off">
+      
+      <label>Senha</label>
+      <input class="input" name="senha" type="password" required placeholder="Crie uma senha segura" autocomplete="off">
+      
+      <button class="btn" type="submit" style="margin-top: 10px;">Cadastrar</button>
+      
+      <p style="margin-top: 15px; text-align: center; font-size: 0.9em;">
+        Já tem conta? <a href="login.html">Fazer Login</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<script>
+document.getElementById('cadastroForm').addEventListener('submit', async function(e){
+    e.preventDefault(); // Impede a página de recarregar
+
+    const form = this;
+    const btn = form.querySelector('button');
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Salvando...';
+    btn.disabled = true;
+
+    // 1. Envia os dados para o PHP
+    try {
+        const response = await fetch('php/cadastro.php', {
+            method: 'POST',
+            body: new FormData(form) // Pega todos os campos com name=""
+        });
+        const data = await response.json();
+
+        // 2. Processa a resposta do PHP
+        if(data.success) {
+            alert('Conta criada com sucesso! Você já pode fazer login.');
+            window.location.href = 'login.html'; // Redireciona para o login
+        } else {
+            alert('Erro: ' + (data.message || 'E-mail já cadastrado ou erro desconhecido.'));
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    } catch (error) {
+        console.error('Erro de rede:', error);
+        alert('Erro de conexão com o servidor. Verifique o XAMPP.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+    }
+});
+</script>
+
+</body>
+</html>

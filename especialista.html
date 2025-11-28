@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Painel do Especialista</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link id="theme-style" rel="stylesheet" href="css/styles.css">
+    <script src="js/theme.js" defer></script>
+    <script src="js/protecao.js" defer></script>
+    <script src="js/carrega_dados.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container bar">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="Portal Gourmet" style="width: 50px; height: 50px; border-radius: 8px;">
+        Portal Gourmet
+    </a>
+    <div class="top-actions">
+        <a href="javascript:history.back()" class="btn">voltar</a>
+    </div>
+  </div>
+</header>
+<main class="container">
+  <div class="form-card">
+    <h2>Bem-vindo, Mestre Culinário!</h2>
+    <p>Use o menu para gerenciar suas receitas.</p>
+    
+    <div style="margin: 20px 0;">
+        <a href="criar-receita.html" class="btn">➕ Criar nova receita</a>
+        <a href="tabela.html" class="ghost">📋 Ver todas as receitas</a>
+        <a href="contato.html" class="ghost">💬 Contato</a>
+    </div>
+    
+    <p style="margin-top: 15px;">
+        <a href="editar_cadastro.html" class="kicker" style="font-size: 0.95em;">✏️ Editar Perfil</a>
+    </p>
+
+    <div class="table-wrap">
+      <h3 class="kicker">Minhas receitas</h3>
+      <table>
+          <thead>
+              <tr>
+                  <th>Imagem</th>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                  <th>Tempo</th>
+                  <th>Ações</th> </tr>
+          </thead>
+          <tbody>
+              </tbody>
+      </table>
+    </div>
+    
+    <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
+    
+    <div style="text-align: right;">
+        <p style="font-size: 0.9em; color: var(--muted);">Deseja sair do portal permanentemente?</p>
+        <button id="btnExcluir" style="background-color: #b00020; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+            ⚠️ Excluir Minha Conta
+        </button>
+    </div>
+
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnExcluir').addEventListener('click', function() {
+        if(!confirm("Tem certeza? Essa ação não pode ser desfeita e apagará seu acesso.")) {
+            return;
+        }
+
+        const emailConfirmacao = prompt("Para confirmar a exclusão, digite seu e-mail:");
+
+        if (emailConfirmacao) {
+            const dados = new FormData();
+            dados.append('email', emailConfirmacao);
+
+            fetch('php/excluir_conta.php', {
+                method: 'POST',
+                body: dados
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert("Conta excluída com sucesso. Sentiremos sua falta!");
+                    sessionStorage.removeItem('logado');
+                    window.location.href = 'index.html';
+                } else {
+                    alert("Erro: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert("Erro ao conectar com o servidor.");
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>

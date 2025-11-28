@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Login - Portal Gourmet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link id="theme-style" rel="stylesheet" href="css/styles.css">
+<script src="js/theme.js" defer></script>
+<script src="js/login.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container bar">
+    <a class="logo" href="index.html">
+        <img src="logo.png" alt="Portal Gourmet" style="width: 50px; height: 50px; border-radius: 8px;">
+        Portal Gourmet
+    </a>
+    <div class="top-actions">
+        <a href="javascript:history.back()" class="btn">voltar</a>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="form-card">
+    <h2>Login do Especialista</h2>
+    <form id="loginForm" autocomplete="off">
+      <label for="email">E-mail</label>
+      <input id="email" name="email" class="input" type="email" required placeholder="mestre@culinaria.com" autocomplete="off">
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" class="input" type="password" required placeholder="123456" autocomplete="off">
+      <button class="btn" type="submit">Entrar</button>
+      
+      <div style="margin-top: 15px; text-align: center;">
+        <p>Ainda não tem cadastro?</p>
+        <a href="cadastro.html" style="color: var(--accent); font-weight: bold;">CRIAR CONTA AGORA</a>
+      </div>
+      
+      <div id="erro" class="erro">E-mail ou senha incorretos</div>
+    </form>
+  </div>
+</main>
+</body>
+</html>
