@@ -10,7 +10,11 @@ $stmt->execute([$email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($senha, $user['senha'])) {
-    echo json_encode(['success' => true]);
+    // ✅ CORREÇÃO: Retorna o email do usuário na resposta JSON para o JS armazenar
+    echo json_encode([
+        'success' => true,
+        'userEmail' => $user['email'] 
+    ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Login inválido.']);
 }

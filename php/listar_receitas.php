@@ -2,24 +2,30 @@
 header('Content-Type: application/json');
 require 'conecta.php';
 
-$userEmail = $_GET['userEmail'] ?? null;
+$userEmail = $_GET['userEmail'] ?? null; // Recebe o filtro do JavaScript
 $termo = $_GET['search'] ?? '';
 $termo_sql = "%$termo%"; 
 
 try {
     $sql = "SELECT id, nome, tipo, tempo_preparo, imagem, autor_email FROM receitas";
     $params = [];
-    
-    // FILTRAGEM: Se o email do usuário foi fornecido (só acontece na página especialista.html)
+    $where_clauses = [];
+
+    // 1. FILTRAGEM POR USUÁRIO (Apenas se o filtro de email estiver presente)
     if ($userEmail) {
-        $sql .= " WHERE autor_email = ?";
+        $where_clauses[] = "autor_email = ?";
         $params[] = $userEmail;
     }
 
-    // BUSCA: Adiciona o filtro de busca de texto
+    // 2. FILTRAGEM POR BUSCA
     if (!empty(trim($_GET['search'] ?? ''))) {
-        $sql .= $userEmail ? " AND nome LIKE ?" : " WHERE nome LIKE ?";
+        $where_clauses[] = "nome LIKE ?";
         $params[] = $termo_sql;
+    }
+
+    // 3. Monta a QUERY FINAL
+    if (!empty($where_clauses)) {
+        $sql .= " WHERE " . implode(" AND ", $where_clauses);
     }
 
     $sql .= " ORDER BY id DESC";
@@ -35,7 +41,7 @@ try {
             'tipo' => $r['tipo'],
             'tempo_forno' => $r['tempo_preparo'],
             'imagem' => $r['imagem'],
-            'autor_email' => $r['autor_email'] // Mantém para futura filtragem em JS, se necessário
+            'autor_email' => $r['autor_email']
         ];
     }, $receitas);
 

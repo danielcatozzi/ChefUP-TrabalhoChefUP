@@ -23,9 +23,3 @@ Funcionamento:
 - Criação de receita salva imagem via upload (localStorage) e aparece na home (e nas listas).
 - Validação da página contato (email e CPF).
 - Login de teste (client-side): mestre@culinaria.com / 123456
-
-Grupo:
-Daniel de Fabris Catozzi;
-Luis Felipe Ribeiro e Silva;
-Otavio Babler Cabral;
-Raul Victor Rodrigues.

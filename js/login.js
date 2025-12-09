@@ -3,6 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
 
     const err = document.getElementById('erro');
+    const btn = form.querySelector('button');
+
+    // 🔑 CORREÇÃO CRÍTICA: Garante que o botão esteja no estado inicial
+    // Se a página for restaurada pelo cache (após o usuário clicar em Voltar),
+    // esta linha reabilita e reseta o texto do botão imediatamente.
+    if (btn) {
+        btn.innerHTML = 'Entrar'; // Define o texto original
+        btn.disabled = false;     // Reabilita o botão
+    }
+    // -----------------------------------------------------------------
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -15,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dados.append('email', email);
         dados.append('senha', senha);
 
-        const btn = form.querySelector('button');
         btn.innerHTML = 'Verificando...';
         btn.disabled = true;
 
@@ -25,7 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: dados
             });
-            const data = await response.json();
+            
+            // Certifica-se de que a resposta é JSON e trata o caso de resposta vazia/erro
+            const data = await response.json(); 
 
             // 3. Processa a resposta
             if (data.success) {
@@ -33,23 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionStorage.setItem('logado', 'true');
                 sessionStorage.setItem('userEmail', email); 
                 btn.innerHTML = 'Entrando...';
+                
+                // Mantém o redirecionamento com delay
                 setTimeout(() => window.location.href = 'especialista.html', 700);
             } else {
-                // Login falhou (senha incorreta no banco)
+                // Login falhou (senha incorreta no banco ou outro erro)
                 err.textContent = data.message || 'E-mail ou senha incorretos.';
                 err.style.display = 'block';
                 form.classList.remove('shake');
                 void form.offsetWidth;
                 form.classList.add('shake');
                 setTimeout(() => err.style.display = 'none', 2200);
+                
+                // Retorna o botão ao estado normal
                 btn.innerHTML = 'Entrar';
                 btn.disabled = false;
             }
         } catch (error) {
-            // Falha na conexão com o servidor (XAMPP desligado?)
+            // Falha na conexão (rede ou servidor)
             console.error('Erro de rede:', error);
             err.textContent = 'Erro de conexão com o servidor. Verifique o XAMPP.';
             err.style.display = 'block';
+            
+            // Retorna o botão ao estado normal
             btn.innerHTML = 'Entrar';
             btn.disabled = false;
         }
